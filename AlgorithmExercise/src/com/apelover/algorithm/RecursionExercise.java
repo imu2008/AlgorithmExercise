@@ -39,7 +39,6 @@ public class RecursionExercise {
 					continue;
 				System.out.println(entry.isFile());
 				File file = entry.getFile();
-
 				byte[] b = new byte[(int) entry.getSize()];
 				taris.read(b);
 				taris.read(b, 0, (int) entry.getSize());
