@@ -24,9 +24,18 @@ public class RightShiftOneSpace {
 	}
 
 	/**
+	 * <p>
+	 * 循环右移第二种方法：
+	 * <p>
 	 * 循环K次交换
-	 * */
-	Object[] rightShiftKTimes(Object[] org, int k) {
+	 * <p>
+	 * 最坏时间复杂度：n*k(其中k=n-1)
+	 * <p>
+	 * 平均复杂度：由于k求n求余后，都有0<=k<n，且k机会是均等的，所以，每个k的概率为1/n。每一轮的迭代次数为n-1.
+	 * 总次数为 ：1/n*((1*(n-1)) + 2*(n-1)+...+(n-1)*(n-1))=1/n*(n-1)*(1+2+n-1) = (n-1)*(n-1)/2
+	 * <p>平均复杂度为O(n*n)
+	 */
+	Object[] rightShiftWay1(Object[] org, int k) {
 		Object space = null;
 		if (org == null || org.length == 1) {
 			return org;
@@ -47,7 +56,16 @@ public class RightShiftOneSpace {
 		return org;
 	}
 
-	Object[] rightShiftWay1(Object[] org, int k) {
+	/**
+	 * <p>
+	 * 循环右移第一种算法：求最k和n的最大公约数，即总移动轮数；
+	 * 每一轮移动，都从当前位置开始，逆推计算原位置，从原位置移动数据到当前位置，然后置原位置为当前，重复操作，直到逆推出的原位置和起始位置相同，
+	 * 开始下一轮移动。直到最后所有移动次数结束。
+	 * <p>
+	 * 求最大公约数的时间复杂度O(n)，n为输入数字的位数。设最大公约数为g，则总次数应该是n+g。
+	 * n为数组长度，这是必须要移动的长度,加g次是因为多了g次空间交换操作。所以最终时间复杂度为O(n)
+	 */
+	Object[] rightShiftWay0(Object[] org, int k) {
 		Object space = null;
 		if (org == null || org.length == 1) {
 			return org;
@@ -57,13 +75,12 @@ public class RightShiftOneSpace {
 		if (k == 0) {
 			return org;
 		}
-		int groupLength = maxCommonDivisor(n, k);//分组长度
+		int groupLength = maxCommonDivisor(n, k);// 分组长度
 		for (int time = 0; time < groupLength; time++) {
 			int targetIndex = time;
 			space = org[targetIndex];
 			do {
-				int startPos = (targetIndex >= k) ? (targetIndex - k)
-						: (n + (targetIndex - k));
+				int startPos = (targetIndex >= k) ? (targetIndex - k) : (n + (targetIndex - k));
 				if (startPos != time) {
 					org[targetIndex] = org[startPos];
 					targetIndex = startPos;
